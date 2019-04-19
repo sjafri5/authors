@@ -9,6 +9,7 @@ import { ActivatedRoute, Params, Router  } from '@angular/router';
 })
 export class NewComponent implements OnInit {
   newAuthor = { name: '' }
+  errors = [];
   constructor(
     private _httpService: HttpService,
     private _route: ActivatedRoute,
@@ -19,11 +20,35 @@ export class NewComponent implements OnInit {
   }
 
   onAddAuthor(){
-    console.log('1', this.newAuthor)
     let tempObservable = this._httpService.addAuthor(this.newAuthor);
-    tempObservable.subscribe(data => {
-      console.log("Got authors!", data);
-      this._router.navigate(['/']);
+    tempObservable.subscribe(resp => {
+      if(resp['message'] === 'error') {
+        console.log(resp)
+        /*
+         var resp = { 
+             message: 'error', 
+             data: {
+               errors: {
+                 name: { message: 'path Name is too short', name: 'xyz' }
+                 email: { message: 'path Email is too short', name: 'xyz' }
+                 lastName: { message: 'path lastname is too short', name: 'xyz' }
+               },
+               _message: '',
+               message: '',
+               name: 'ValidationError'
+             }
+           }
+        */
+        var errorsResponse = resp['data']['errors']
+
+        for(var key in errorsResponse){
+          var errString = key + ' - ' + errorsResponse[key]['message']
+          this.errors.push(errString)
+        }
+
+      } else {
+        this._router.navigate(['/']);
+      }
     });
   }
 }

@@ -3,4 +3,7 @@
 </p>
 <a [routerLink]="['/new']" >Add a new Author</a>
 
-<p *ngFor="let author of authors">{{author.name}}</p>
+<div *ngFor="let author of authors">
+  <p>{{author.name}} <a [routerLink]="['/edit/' + author._id]" style='color: blue'>Edit</a> -- 
+  <a (click)="onDelete(author._id)" style='color: blue' >Delete</a></p>
+</div>

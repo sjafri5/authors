@@ -25,4 +25,11 @@ export class HomeComponent implements OnInit {
 
     });
   }
+
+  onDelete(id){
+    let tempObservable = this._httpService.deleteAuthor(id);
+    tempObservable.subscribe(data => {
+      this.getAllAuthors()
+    });
+  }
 }

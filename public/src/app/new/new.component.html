@@ -1,6 +1,9 @@
 <a [routerLink]="['/']" >Home</a>
+<div *ngIf='errors.length > 0' style='color:red;'>
+  <h6 *ngFor='let error of errors'>{{error}}</h6>
+</div>
+
 <form (submit)="onAddAuthor()">
-  {{ newAuthor | json }}
   <p><input placeholder='name'  [(ngModel)]="newAuthor.name" type="text" name='name'></p>
   <p><input type="submit" value="Add Author"></p>
 </form>

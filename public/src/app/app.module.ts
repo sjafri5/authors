@@ -9,13 +9,15 @@ import { NewComponent } from './new/new.component';
 
 import { HttpService } from './http.service';
 import { HttpClientModule } from '@angular/common/http';
+import { EditComponent } from './edit/edit.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NewComponent
+    NewComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,

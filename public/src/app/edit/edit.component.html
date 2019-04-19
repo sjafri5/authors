@@ -1,0 +1,6 @@
+<h4>Edit Author:</h4>
+<form (submit)="onEditAuthor()">
+  {{ editAuthor | json }}
+  <p><input [(ngModel)]="editAuthor.name" name="editAuthor.name" type="text" placeholder='name' ></p>
+  <p><input type="submit" value="Edit"></p>
+</form>

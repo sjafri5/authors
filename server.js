@@ -17,9 +17,11 @@ app.use(flash());
 app.use(express.static( __dirname + '/public/dist/public'  ));
 
 mongoose.connect('mongodb://localhost/authors'); 
+
 var AuthorSchema = new mongoose.Schema({
    name:  { type: String, required: true, unique: true, minlength: 3 },
 })
+
 mongoose.model('Author', AuthorSchema);
 var Author = mongoose.model('Author')
 
@@ -31,6 +33,39 @@ app.get("/authors", (req,res) => {
       res.json({message: 'success', data: authors})
     }
   })
+});
+
+app.get("/authors/:id", (req,res) => {
+  Author.findOne({_id: req.params.id}, function(err, author){
+    if(err){
+      res.json({message: 'error', data: err})
+    }else{
+      res.json({message: 'success', data: author})
+    }
+  })
+});
+
+app.put("/authors/:id", (req,res) => {
+  Author.findOne({_id: req.params.id}, function(err, author){
+    author.name = req.body.name
+    author.save(function(err, author){
+      if(err){
+        console.log(err)
+      } else{
+        res.json({message: 'success', data: author})
+      }
+    })
+  })
+});
+
+app.delete("/authors/:id", (req,res) => {
+  Author.findOneAndRemove({_id: req.params.id}, function(err){
+    if(err){
+      res.json({message: 'error', data: err})
+    }else{
+      res.json({message: 'success'})
+    }
+  });
 });
 
 app.post("/create", (req,res) => {
